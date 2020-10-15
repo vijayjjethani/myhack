@@ -37,5 +37,6 @@ jobs:
         with:
           creds: ${{ secrets.MYHACKAZURE }}
       - run: |
-          docker build apis/poi/web/Dockerfile -t openhackvtk50d57acr.azurecr.io/poi:${{ github.sha }}
+          copy apis/poi/web/Dockerfile .
+          docker build . -t openhackvtk50d57acr.azurecr.io/poi:${{ github.sha }}
           docker push openhackvtk50d57acr.azurecr.io/poi:${{ github.sha }}  
