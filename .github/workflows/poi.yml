@@ -27,33 +27,18 @@ jobs:
       run: dotnet test --no-restore --verbosity normal
       
   
-  acr_build:
+  Deploy-to-Azure:
     runs-on: ubuntu-latest
+    needs: build
+    name: Deploy image to acr
     steps:
-    - name: ACR build
-      id: acr
-      uses: ams0/acr-task-github-action@v1
-      with:
-        service_principal: ${{ secrets.service_principal }}
-        service_principal_password: ${{ secrets.service_principal_password }}
-        tenant: ${{ secrets.tenant }}
-        registry: ${{ secrets.registry }}
-        repository: ${{ secrets.repository }}
-        image: poi
-        folder: apis/poi/web
-        dockerfile: Dockerfile
-  
-  acr_deploy:
-    runs-on: ubuntu-latest
-    needs: acr_build
-    steps:
-    - name: ACR deploy
-      uses: azure/webapps-deploy@v2
-      with:
-        service_principal: ${{ secrets.service_principal }}
-        service_principal_password: ${{ secrets.service_principal_password }}
-        tenant: ${{ secrets.tenant }}
-        registry: ${{ secrets.registry }}
-        repository: ${{ secrets.repository }}  
-        app-name: 'vijaypoiwebapp'
-        images: ${{ secrets.registry }}/ ${{ secrets.repository }}:latest
+      - name: "Login via Azure CLI"
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - uses: azure/docker-login@v1
+        with:
+          login-server: openhackvtk50d57acr.azurecr.io
+      - run: |
+          docker build ./apis/poi/web/Dockerfile -t openhackvtk50d57acr.azurecr.io/poi:${{ github.sha }}
+          docker push openhackvtk50d57acr.azurecr.io/poi:${{ github.sha }}  
