@@ -39,7 +39,7 @@ jobs:
           creds: ${{ secrets.MYHACKAZURE }}
       
       - name: Push Container to ACR
+        working-directory: ./apis/poi/web
         run: |
-          working-directory: ./apis/poi/web
           docker build . -t openhackvtk50d57acr.azurecr.io/poi:${{ github.sha }}
           docker push openhackvtk50d57acr.azurecr.io/poi:${{ github.sha }}  
