@@ -39,9 +39,11 @@ jobs:
         with:
           creds: ${{ secrets.MYHACKAZURE }}
       
-      - name: Push Container to ACR
-        working-directory: ./apis/poi/web
-        run: |
-          docker login openhackvtk50d57acr.azurecr.io 
+      - uses: azure/docker-login@v1
+        with:
+          login-server: openhackvtk50d57acr.azurecr.io
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+      - run: |
           docker build . -t openhackvtk50d57acr.azurecr.io/poi:${{ github.sha }}
-          docker push openhackvtk50d57acr.azurecr.io/poi:${{ github.sha }}      
+          docker push openhackvtk50d57acr.azurecr.io/poi:${{ github.sha }}
