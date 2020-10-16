@@ -7,14 +7,12 @@ on:
     paths:
     - 'apis/poi/**'
 
-defaults:
-  run:
-    working-directory: ./apis/poi
-
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        working-directory: ./apis/poi
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET Core
@@ -29,6 +27,9 @@ jobs:
   
   Deploy-to-Azure:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./apis/poi/web
     needs: build
     name: Deploy image to acr
     steps:
@@ -37,6 +38,5 @@ jobs:
         with:
           creds: ${{ secrets.MYHACKAZURE }}
       - run: |
-          copy apis/poi/web/Dockerfile .
           docker build . -t openhackvtk50d57acr.azurecr.io/poi:${{ github.sha }}
           docker push openhackvtk50d57acr.azurecr.io/poi:${{ github.sha }}  
