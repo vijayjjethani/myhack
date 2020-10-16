@@ -41,4 +41,4 @@ jobs:
       - name: Push Container to ACR
         working-directory: ./apis/poi/web
         run: |
-          docker build .         
+          docker build -f Dockerfile       
