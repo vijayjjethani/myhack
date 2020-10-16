@@ -33,6 +33,7 @@ jobs:
     needs: build
     name: Deploy image to acr
     steps:
+      - uses: actions/checkout@v2
       - name: "Login via Azure CLI"
         uses: azure/login@v1
         with:
@@ -41,4 +42,5 @@ jobs:
       - name: Push Container to ACR
         working-directory: ./apis/poi/web
         run: |
-          docker build -f Dockerfile       
+          docker build . -t openhackvtk50d57acr.azurecr.io/poi:${{ github.sha }}
+          docker push openhackvtk50d57acr.azurecr.io/poi:${{ github.sha }}      
