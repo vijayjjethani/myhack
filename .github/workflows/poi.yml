@@ -39,6 +39,6 @@ jobs:
           creds: ${{ secrets.MYHACKAZURE }}
       
       - name: Push Container to ACR
-      - run: |
+        run: |
           docker build . -t openhackvtk50d57acr.azurecr.io/poi:${{ github.sha }}
           docker push openhackvtk50d57acr.azurecr.io/poi:${{ github.sha }}  
