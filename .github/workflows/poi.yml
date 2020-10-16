@@ -41,5 +41,4 @@ jobs:
       - name: Push Container to ACR
         working-directory: ./apis/poi/web
         run: |
-          docker build . -t openhackvtk50d57acr.azurecr.io/poi:${{ github.sha }}
-          docker push openhackvtk50d57acr.azurecr.io/poi:${{ github.sha }}  
+          docker build .         
