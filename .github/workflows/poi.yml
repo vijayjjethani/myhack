@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./apis/poi/web/
+        working-directory: ./apis/poi/web
     needs: build
     name: Deploy image to acr
     steps:
@@ -40,5 +40,6 @@ jobs:
       
       - name: Push Container to ACR
         run: |
+          working-directory: ./apis/poi/web
           docker build . -t openhackvtk50d57acr.azurecr.io/poi:${{ github.sha }}
           docker push openhackvtk50d57acr.azurecr.io/poi:${{ github.sha }}  
