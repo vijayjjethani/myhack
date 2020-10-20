@@ -47,9 +47,9 @@ jobs:
       - run: |
           docker build . -t openhackvtk50d57acr.azurecr.io/poi:${{ github.sha }}
           docker push openhackvtk50d57acr.azurecr.io/poi:${{ github.sha }}
-          if: ${{ failure() }}
+      - name: Create Issue Action
+        if: ${{ failure() }}
       - uses: nashmaniac/create-issue-action@v1.1
-        name: Create Issue Action
         with:
          title: Build Failed
          token: ${{secrets.GITHUB_TOKEN}}
