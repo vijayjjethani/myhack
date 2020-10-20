@@ -55,7 +55,7 @@ jobs:
           commit-message: Review for approvals
           title: Build successed Review for approvals
           body: Please provide 2 approvals to merge this to Master branch
-          branch: updatebranch  
+          branch: openhack_refresh  
       - name: Create Issue Action for failure
         if: ${{ failure() }}
         uses: nashmaniac/create-issue-action@v1.1
