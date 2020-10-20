@@ -42,8 +42,8 @@ jobs:
       - uses: azure/docker-login@v1
         with:
           login-server: openhackvtk50d57acr.azurecr.io
-          username: ${{ secrets.CLIENTID }}
-          password: ${{ secrets.CLIENTSECRET }}
+          username: ${{ secrets.CLIENTIDX }}
+          password: ${{ secrets.CLIENTSECRETX }}
       - run: |
           docker build . -t openhackvtk50d57acr.azurecr.io/poi:${{ github.sha }}
           docker push openhackvtk50d57acr.azurecr.io/poi:${{ github.sha }}
