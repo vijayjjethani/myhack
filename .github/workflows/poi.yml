@@ -47,3 +47,8 @@ jobs:
       - run: |
           docker build . -t openhackvtk50d57acr.azurecr.io/poi:${{ github.sha }}
           docker push openhackvtk50d57acr.azurecr.io/poi:${{ github.sha }}
+      - name: dockerpushfailure
+        if: ${{ failure() }}
+        uses: JasonEtco/create-an-issue@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}          
