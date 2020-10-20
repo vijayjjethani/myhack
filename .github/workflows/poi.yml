@@ -50,12 +50,21 @@ jobs:
       - name: Create Pull Request
         if: ${{ success() }}
         id: cpr
-        uses: peter-evans/create-pull-request@v3
+        uses: repo-sync/pull-request@v2
         with:
-          commit-message: Review for approvals
-          title: Build successed Review for approvals
-          body: Please provide 2 approvals to merge this to Master branch
-          branch: openhack_refresh  
+          source_branch: ""                                 # If blank, default: triggered branch
+          destination_branch: "master"                      # If blank, default: master
+          pr_title: "Pulling ${{ github.ref }} into openhack_refresh" # Title of pull request
+          pr_body: "*An automated PR*"              # Full markdown support, requires pr_title to be set
+          pr_template: ".github/PULL_REQUEST_TEMPLATE.md"   # Path to pull request template, requires pr_title to be set, excludes pr_body
+          pr_reviewer: "jethanivijay"                         # Comma-separated list (no spaces)
+          pr_assignee: "jethanivijay"                         # Comma-separated list (no spaces)
+          pr_label: "auto-pr"                               # Comma-separated list (no spaces)
+          pr_milestone: "Proddeploy"                        # Milestone name
+          pr_draft: true                                    # Creates pull request as draft
+          pr_allow_empty: false                              # Creates pull request even if there are no changes
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+     
       - name: Create Issue Action for failure
         if: ${{ failure() }}
         uses: nashmaniac/create-issue-action@v1.1
@@ -65,4 +74,3 @@ jobs:
          assignees: ${{github.actor}}
          labels: worflow-failed
          body: Workflow failed for commit ${{github.sha}}
-                 
