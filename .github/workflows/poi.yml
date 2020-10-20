@@ -42,8 +42,18 @@ jobs:
       - uses: azure/docker-login@v1
         with:
           login-server: openhackvtk50d57acr.azurecr.io
-          username: ${{ secrets.CLIENTID }}
-          password: ${{ secrets.CLIENTSECRET }}
+          username: ${{ secrets.CLIENTIDX }}
+          password: ${{ secrets.CLIENTSECRETX }}
       - run: |
           docker build . -t openhackvtk50d57acr.azurecr.io/poi:${{ github.sha }}
           docker push openhackvtk50d57acr.azurecr.io/poi:${{ github.sha }}
+      - name: dockerpushfailure
+        if: ${{ failure() }}
+        uses: bryannice/gitactions-git-issue-creation@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_COMMIT_SHA: ${{ github.sha }}
+          GITHUB_REPO_OWNER: 'jethanivijay'
+          GITHUB_REPO_NAME: 'vijayjjethani/myhack'
+          GITHUB_ISSUE_TITLE: 'Docker push failed'
+          GITHUB_ISSUE_BODY: 'Investigate flow of steps and credentials'
