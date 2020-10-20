@@ -47,7 +47,16 @@ jobs:
       - run: |
           docker build . -t openhackvtk50d57acr.azurecr.io/poi:${{ github.sha }}
           docker push openhackvtk50d57acr.azurecr.io/poi:${{ github.sha }}
-      - name: Create Issue Action
+      - name: Create Pull Request
+        if: ${{ success() }}
+        id: cpr
+        uses: peter-evans/create-pull-request@v3
+        with:
+          commit-message: Review for approvals
+          title: Build successed Review for approvals
+          body: Please provide 2 approvals to merge this to Master branch
+          branch: updatebranch  
+      - name: Create Issue Action for failure
         if: ${{ failure() }}
         uses: nashmaniac/create-issue-action@v1.1
         with:
@@ -56,12 +65,4 @@ jobs:
          assignees: ${{github.actor}}
          labels: worflow-failed
          body: Workflow failed for commit ${{github.sha}}
-      - name: Create Pull Request and Project Card
-        if: ${{ success() }}
-        id: cpr
-        uses: peter-evans/create-pull-request@v3
-        with:
-          commit-message: Review for approvals
-          title: Build successed Review for approvals
-          body: Please provide 2 approvals to merge this to Master branch
-          branch: updatebranch             
+                 
