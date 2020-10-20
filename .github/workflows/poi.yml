@@ -56,3 +56,12 @@ jobs:
          assignees: ${{github.actor}}
          labels: worflow-failed
          body: Workflow failed for commit ${{github.sha}}
+      - name: Create Pull Request and Project Card
+        if: ${{ success() }}
+        id: cpr
+        uses: peter-evans/create-pull-request@v3
+        with:
+          commit-message: Review for approvals
+          title: Build successed Review for approvals
+          body: Please provide 2 approvals to merge this to Master branch
+          branch: updatebranch             
