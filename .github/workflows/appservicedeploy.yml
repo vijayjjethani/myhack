@@ -21,4 +21,5 @@ jobs:
       - uses: azure/webapps-deploy@v2
         with:
           app-name: 'openhackvtk50d57poi'
-          images: 'openhackvtk50d57acr.azurecr.io/poi:latest'
+          images: 'openhackvtk50d57acr.azurecr.io/poi:${{ github.sha }}'
+          slot: 'staging'
