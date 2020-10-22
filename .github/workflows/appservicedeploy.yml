@@ -19,7 +19,6 @@ jobs:
           password: ${{ secrets.CLIENTSECRET }}
               
       - name: Deploy only if website is reachable
-        if: $STATUS==200    
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'openhackvtk50d57poi'
