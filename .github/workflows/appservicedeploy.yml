@@ -17,10 +17,20 @@ jobs:
           login-server: openhackvtk50d57acr.azurecr.io
           username: ${{ secrets.CLIENTID }}
           password: ${{ secrets.CLIENTSECRET }}
-             
-      - name: Deploy only if website is reachable
+      
+      - name: Deploy to staging environment
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'openhackvtk50d57poi'
-          images: 'openhackvtk50d57acr.azurecr.io/poi:${{ github.sha }}'
+          images: 'openhackvtk50d57acr.azurecr.io/poi:fe18b720c376d2946b321636aff76307dd169155'
+          slot-name: 'staging'
+      - run: |
+          STATUS=$(curl -s -o /dev/null -w '%{http_code}' https://openhackvtk50d57poi-staging.azurewebsites.net/api/healthcheck/poi
+             
+      - name: Deploy only if website is reachable
+        if: STATUS==200
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'openhackvtk50d57poi'
+          images: 'openhackvtk50d57acr.azurecr.io/poi:fe18b720c376d2946b321636aff76307dd169155'
           slot-name: 'production'
