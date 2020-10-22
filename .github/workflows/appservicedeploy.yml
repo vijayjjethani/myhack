@@ -29,6 +29,7 @@ jobs:
           slot-name: 'staging'
       - run: |
           STATUS=$(curl -s -o /dev/null -w '%{http_code}' https://openhackvtk50d57poi-staging.azurewebsites.net/api/healthcheck/poi)
+          echo $STATUS
              
       - name: Deploy only if website is reachable
         if: STATUS == ${{200}}
