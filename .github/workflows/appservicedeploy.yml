@@ -17,7 +17,7 @@ jobs:
           login-server: openhackvtk50d57acr.azurecr.io
           username: ${{ secrets.CLIENTID }}
           password: ${{ secrets.CLIENTSECRET }}
-              
+             
       - name: Deploy only if website is reachable
         uses: azure/webapps-deploy@v2
         with:
